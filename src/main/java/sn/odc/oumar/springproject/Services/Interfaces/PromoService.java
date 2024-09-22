@@ -13,4 +13,5 @@ public interface PromoService {
     public Promo updatePromo(Promo promotion);
     public Iterable<Promo> findAllPromos();
     public boolean promoExists(String libelle);
+    public void softDelete(Long id);
 }

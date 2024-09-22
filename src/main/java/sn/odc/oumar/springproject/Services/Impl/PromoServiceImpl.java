@@ -41,11 +41,17 @@ public class PromoServiceImpl implements PromoService {
 
     @Override
     public Iterable<Promo> findAllPromos() {
-        return promoRepository.findAll(); // Récupération de toutes les promotions
+        return promoRepository.findByDeletedFalse(); // Récupération de toutes les promotions
     }
 
     @Override
     public boolean promoExists(String libelle) {
         return promoRepository.existsByLibelle(libelle); // Assurez-vous d'avoir une méthode dans votre repo
+    }
+
+    public void softDelete(Long id) {
+        Promo promo = promoRepository.findById(id).orElseThrow(() -> new RuntimeException("Promo not found"));
+        promo.setDeleted(true); // Marquer comme supprimée
+        promoRepository.save(promo); // Sauvegarder les modifications
     }
 }

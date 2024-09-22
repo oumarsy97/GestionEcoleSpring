@@ -23,7 +23,7 @@ public class ReferentielServiceImpl implements ReferentielService {
 
     @Override
     public Iterable<Referentiel> findAll() {
-        return referentielRepository.findAll();
+        return referentielRepository.findByDeletedFalse();
     }
 
     @Override

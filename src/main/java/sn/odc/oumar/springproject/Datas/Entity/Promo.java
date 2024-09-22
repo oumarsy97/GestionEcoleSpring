@@ -1,19 +1,18 @@
 package sn.odc.oumar.springproject.Datas.Entity;
 
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import sn.odc.oumar.springproject.Datas.listeners.impl.SoftDeletable;
+import sn.odc.oumar.springproject.Datas.listeners.SoftDeleteListener;
 
 import java.time.LocalDate;
 import java.util.Set;
 
-
 @Entity
 @Table(name = "promos")
 @Data
-public class Promo {
-
-
+@EntityListeners(SoftDeleteListener.class)
+public class Promo implements SoftDeletable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +21,7 @@ public class Promo {
     @Column(unique = true, nullable = false)
     private String libelle;
 
-
     private LocalDate dateDebut;
-
 
     private LocalDate dateFin;
 
@@ -42,10 +39,21 @@ public class Promo {
     )
     private Set<Referentiel> referentiels;
 
+    private boolean deleted;
+
+    @Override
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return deleted;
+    }
+
     public enum Etat {
         ACTIF,
         CLOTURE,
         INACTIF
     }
-
 }
