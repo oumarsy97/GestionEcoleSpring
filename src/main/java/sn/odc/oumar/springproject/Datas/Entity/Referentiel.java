@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "referentiels")
-@EntityListeners({SoftDeleteListener.class, CodeGeneratorListener.class}) // Ajoute le listener pour générer le code
+@EntityListeners({SoftDeleteListener.class, CodeGeneratorListener.class})
 public class Referentiel implements SoftDeletable, CodeGeneratable {
 
     @Id
@@ -25,15 +25,15 @@ public class Referentiel implements SoftDeletable, CodeGeneratable {
     private String libelle;
 
     @Column(unique = true, nullable = false)
-    private String code;  // Le code sera généré automatiquement
+    private String code;
 
     private String description;
 
     private String photoCouverture;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Promo.Etat etat = Promo.Etat.ACTIF;
+    @Column(nullable = false)
+    private Etat etat = Etat.ACTIF;
 
     @ManyToMany(mappedBy = "referentiels")
     private Set<Promo> promos;
@@ -61,5 +61,11 @@ public class Referentiel implements SoftDeletable, CodeGeneratable {
     @Override
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public enum Etat {
+        ACTIF,
+        CLOTURE,
+        INACTIF
     }
 }

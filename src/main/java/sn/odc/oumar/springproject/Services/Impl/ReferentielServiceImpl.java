@@ -40,4 +40,20 @@ public class ReferentielServiceImpl implements ReferentielService {
     public void delete(Long id) {
         referentielRepository.deleteById(id);
     }
+
+    @Override
+    public boolean existsByLibelle(String libelle) {
+        return  referentielRepository.existsByLibelle(libelle);
+    }
+
+    @Override
+    public Iterable<Referentiel> findByEtat(Referentiel.Etat etat) {
+        return referentielRepository.findByEtat(etat); // Méthode à définir dans le repository
+    }
+
+    @Override
+    public Referentiel updateReferentiel(Referentiel updateReferentielDto) {
+        return  referentielRepository.save( updateReferentielDto);
+    }
+
 }
