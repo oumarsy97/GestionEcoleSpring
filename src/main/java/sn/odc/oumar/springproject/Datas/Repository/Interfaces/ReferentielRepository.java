@@ -7,13 +7,13 @@ import sn.odc.oumar.springproject.Datas.Entity.Referentiel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface ReferentielRepository extends JpaRepository<Referentiel, Long> {
+public interface ReferentielRepository extends BaseInterface<Referentiel, Long> {
     boolean existsByLibelle(String libelle);
-    List<Referentiel> findByDeletedFalse();
     List<Referentiel> findByCompetencesContaining(Competence competence);
-    @Query("SELECT r FROM Referentiel r WHERE r.etat = :etat")
-    Iterable<Referentiel> findByEtat(@Param("etat") Referentiel.Etat etat);
-
+    public Optional<Referentiel> findByLibelleAndDeletedFalse(String libelle);
+    List<Referentiel> findByEtat(@Param("etat") Referentiel.Etat etat);
+    // Récupérer un referentiel non supprimé par ID
 
 }

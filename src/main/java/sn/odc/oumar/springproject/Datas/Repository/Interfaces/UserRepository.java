@@ -1,5 +1,13 @@
 package sn.odc.oumar.springproject.Datas.Repository.Interfaces;
 
-public class UserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import sn.odc.oumar.springproject.Datas.Entity.User;
+
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User,Long> {
+
+    Optional<User> findByEmail(String email);
+    User save(User user);
     
 }

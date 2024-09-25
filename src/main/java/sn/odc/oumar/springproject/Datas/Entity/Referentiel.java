@@ -6,20 +6,21 @@ import lombok.NoArgsConstructor;
 import sn.odc.oumar.springproject.Datas.listeners.CodeGeneratorListener;
 import sn.odc.oumar.springproject.Datas.listeners.SoftDeleteListener;
 import sn.odc.oumar.springproject.Datas.listeners.impl.CodeGeneratable;
-import sn.odc.oumar.springproject.Datas.listeners.impl.SoftDeletable;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
 @Entity
 @Table(name = "referentiels")
 @EntityListeners({SoftDeleteListener.class, CodeGeneratorListener.class})
-public class Referentiel implements SoftDeletable, CodeGeneratable {
+public class Referentiel extends BaseEntity implements  CodeGeneratable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Referentiel(){
+        super();
+        this.competences = new HashSet<>(); // Initialisation de la liste des compétences par défaut à null au constructeur
+    }
+
 
     @Column(unique = true, nullable = false)
     private String libelle;
@@ -40,18 +41,6 @@ public class Referentiel implements SoftDeletable, CodeGeneratable {
 
     @OneToMany(mappedBy = "referentiel", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Competence> competences;
-
-    private boolean deleted = false;
-
-    @Override
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    @Override
-    public boolean isDeleted() {
-        return deleted;
-    }
 
     @Override
     public String getCode() {

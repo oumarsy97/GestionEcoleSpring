@@ -49,5 +49,6 @@ public class CompetenceServiceImpl implements CompetenceService {
     @Override
     public void deleteById(Competence competence) {
     competenceRepository.delete(competence);
+    
     }
 }

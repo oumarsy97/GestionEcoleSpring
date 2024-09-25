@@ -1,5 +1,6 @@
 package sn.odc.oumar.springproject.Web.Controller.Impl;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/competences")
+@Tag(name = "Competences", description = "API pour gérer les compétences")
 public class CompetenceController {
     private static CompetenceService competenceService;
     private ReferentielService referentielService;

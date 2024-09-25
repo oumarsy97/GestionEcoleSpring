@@ -7,19 +7,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "competences")
-public class Competence {
+public class Competence extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Competence(){
+        super();
+        this.modules = new HashSet<>();  // Initialisation des modules par défaut à null au constructeur
+    }
+
 
     @Column(nullable = false, unique = true)
     private String nom;
@@ -38,8 +40,6 @@ public class Competence {
 
     @OneToMany(mappedBy = "competence", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Module> modules;
-
-
 
     public enum Type {
         BACKEND,

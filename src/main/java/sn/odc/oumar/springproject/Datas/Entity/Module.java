@@ -7,15 +7,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "modules")
-@Getter
-@Setter
-public class Module {
+@Data
+public class Module extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Module(){
+        super();
+        this.competence = new Competence();  // Initialisation de la compétence par défaut à null au constructeur
+    }
+
+
 
     @Column(nullable = false, unique = true)
     private String nom;
@@ -29,4 +34,8 @@ public class Module {
     @JsonIgnore
     @JoinColumn(name = "competence_id") // Nom de la colonne de clé étrangère
     private Competence competence; // Référence vers la compétence
+
+    // Relation OneToMany avec Note
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> notes = new ArrayList<>();
 }

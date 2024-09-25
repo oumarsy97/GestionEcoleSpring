@@ -12,4 +12,5 @@ public class PromoDTO {
     private LocalDate dateDebut;
     private Integer dureeReel;
     private Set<Referentiel> referentielsActifs; // Ou une liste d'IDs
+
 }

@@ -6,17 +6,16 @@ import sn.odc.oumar.springproject.Datas.listeners.impl.SoftDeletable;
 import sn.odc.oumar.springproject.Datas.listeners.SoftDeleteListener;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "promos")
 @Data
 @EntityListeners(SoftDeleteListener.class)
-public class Promo implements SoftDeletable {
+public class Promo  extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     @Column(unique = true, nullable = false)
     private String libelle;
@@ -39,17 +38,11 @@ public class Promo implements SoftDeletable {
     )
     private Set<Referentiel> referentiels;
 
-    private boolean deleted;
-
-    @Override
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public Promo() {
+        super();
+        this.referentiels = new HashSet<>();
     }
 
-    @Override
-    public boolean isDeleted() {
-        return deleted;
-    }
 
     public enum Etat {
         ACTIF,
