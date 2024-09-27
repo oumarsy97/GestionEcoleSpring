@@ -48,7 +48,7 @@ public class Apprenant extends BaseEntity{
     @JoinColumn(name = "promo_referentiel_id", nullable = false)
     private PromoReferentiel promoReferentiel;
 
-    private enum Etat {
+    public enum Etat {
             ACTIF,
             INACTIF,
             BLOQUE

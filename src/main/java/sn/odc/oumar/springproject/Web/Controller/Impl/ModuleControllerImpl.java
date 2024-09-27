@@ -3,8 +3,6 @@ package sn.odc.oumar.springproject.Web.Controller.Impl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sn.odc.oumar.springproject.Datas.Entity.Competence;
 import sn.odc.oumar.springproject.Datas.Entity.Module;
@@ -15,13 +13,12 @@ import sn.odc.oumar.springproject.Web.Controller.BaseControllerImpl;
 import sn.odc.oumar.springproject.Web.Controller.Interfaces.ModuleControllerInterface;
 import sn.odc.oumar.springproject.Web.Dtos.Request.ModuleDTO;
 import sn.odc.oumar.springproject.Web.Dtos.Request.ModuleRequestDTO;
-import sn.odc.oumar.springproject.Web.Dtos.Response.ApiResponse;
-
 
 @RestController
 @RequestMapping("/api/v1/modules")
 @Tag(name = "Modules", description = "API pour gérer les modules")
-public class ModuleControllerImpl extends BaseControllerImpl<Module, ModuleDTO,Long> implements ModuleControllerInterface {
+public class ModuleControllerImpl extends BaseControllerImpl<Module, ModuleDTO, Long> implements ModuleControllerInterface {
+
     private final ModuleService moduleService;
     private final CompetenceService competenceService;
 
@@ -31,13 +28,12 @@ public class ModuleControllerImpl extends BaseControllerImpl<Module, ModuleDTO,L
         this.moduleService = moduleService;
         this.competenceService = competenceService;
     }
-    @PostMapping("/create")
-    public ResponseEntity<ApiResponse<Module>> create(@RequestBody @Valid ModuleRequestDTO moduleDTO) {
 
+    @PostMapping("/create")
+    public Module create(@RequestBody @Valid ModuleRequestDTO moduleDTO) {
         // Vérification si le module existe déjà
         if (moduleService.moduleExists(moduleDTO.getNom())) {
-            return ResponseEntity.badRequest()
-                    .body(ApiResponse.error(HttpStatus.BAD_REQUEST, "Le module existe déjà", null));
+            throw new ServiceException("Le module existe déjà");
         }
 
         // Vérification si la compétence associée existe
@@ -52,22 +48,26 @@ public class ModuleControllerImpl extends BaseControllerImpl<Module, ModuleDTO,L
         module.setCompetence(competence); // Associer la compétence trouvée
 
         // Sauvegarder le module
-        Module savedModule = moduleService.create(module);
-
-        // Retourner une réponse avec succès
-        return ResponseEntity.ok(ApiResponse.success("Module créé avec succès", savedModule));
+        return moduleService.create(module);
     }
-
-
-
 
     @Override
     protected Module convertToEntity(ModuleDTO moduleDTO) {
-        return null;
+        // Implémentation de la conversion ModuleDTO -> Module
+        Module module = new Module();
+        module.setNom(moduleDTO.getNom());
+        module.setDescription(moduleDTO.getDescription());
+        module.setDureeAcquisition(moduleDTO.getDureeAcquisition());
+        return module;
     }
 
     @Override
     protected ModuleDTO convertToDto(Module entity) {
-        return null;
+        // Implémentation de la conversion Module -> ModuleDTO
+        ModuleDTO dto = new ModuleDTO();
+        dto.setNom(entity.getNom());
+        dto.setDescription(entity.getDescription());
+        dto.setDureeAcquisition(entity.getDureeAcquisition());
+        return dto;
     }
 }

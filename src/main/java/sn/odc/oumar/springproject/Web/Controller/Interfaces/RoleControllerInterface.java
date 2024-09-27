@@ -7,5 +7,5 @@ import sn.odc.oumar.springproject.Web.Dtos.Request.RoleDTO;
 import sn.odc.oumar.springproject.Web.Dtos.Response.BaseResponse;
 
 public interface RoleControllerInterface {
-    ResponseEntity<BaseResponse<Role>> findByLibelle(String libelle);
+    Role findByLibelle(String libelle);
 }

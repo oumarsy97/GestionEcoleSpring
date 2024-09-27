@@ -12,7 +12,7 @@ import sn.odc.oumar.springproject.Web.Dtos.Request.NoteDTO;
 
 @RequestMapping("/notes")
 @RestController
-@Tag(name = "apprenants", description = "API pour gérer les appreants")
+@Tag(name = "notes", description = "API pour gérer les notes")
 public class NoteControllerImpl extends BaseControllerImpl<Note,NoteDTO,Long> implements NoteControllerInterface {
 
     protected NoteService noteService;
